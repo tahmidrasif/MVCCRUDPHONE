@@ -1,0 +1,126 @@
+﻿@model MVCPHONECRUD.Models.Phone
+
+@using (Ajax.BeginForm("Edit", "Phone", FormMethod.Post, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "POST", OnSuccess = "updateSuccess", OnFailure = "updateFailure", UpdateTargetId = "partialChange", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.PhoneId)
+
+
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Model, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Model, new { @class = "form-control required" })
+                <div>
+                    @Html.ValidationMessageFor(m => m.Model)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Company, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Company, new { @class = "form-control required" })
+                <div>
+                    @Html.ValidationMessageFor(m => m.Company)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Price, new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Price, new { @class = "form-control required" })
+                <div>
+                    @Html.ValidationMessageFor(m => m.Price)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-sm-9 pull-right">
+                <input class="btn btn-primary" type="submit" value="Save" />
+                <button class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="myModalContent">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Phone</h4>
+            </div>
+            <div class="modal-body" id="modalBody1">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    function updateSuccess(data) {
+
+        $('#myModal').modal('hide');
+
+        //console.log(data);
+        //if (data.status == 1) {
+        //    alert('Error');
+        //}
+
+        if (data.status == 1) {
+
+          //  $('#modalBody').html("Error");
+            //  window.location.href = '@Url.Action("Index", "Phone")';
+            console.log(data);
+         //   }
+
+            //$('#myModal1').modal('show');
+        }
+        //else {
+        //   // $('#modalBody').html("Error");
+        //    $('#myModal').modal('show');
+        //}
+        //window.location.href = '@Url.Action("Index", "Phone")';
+
+
+    }
+    function updateFailure(data) {
+        console.log(data);
+        //$('#modalBody').html("Error");
+        $('#myModal').modal('hide');
+        //$('#myModal').on('hidden', function() {
+        //    // Load up a new modal...
+        //    console.log('Hidden');
+        //    $('#myModal1').modal('show');
+        //});
+        //$('#myModal').on('hidden.bs.modal', function(e) {
+        //    $('#myModal1').modal('show');
+        //});
+        //alert('Error');
+        //$('#myModal1').modal('show');
+    }
+
+    function complete(result) {
+        //var isError = $('span.field-validation-error', result.responseText).length > 0;
+        //if (isError) {
+        //    // there was an error => we update the container of the form
+        //    $('#frmContainer').html(result.responseText);
+        //} else {
+        //    // no error => we hide validation errors and update the result container
+        //    $('#frm .field-validation-error').hide();
+        //    $('#frm .input-validation-error').removeClass('input-validation-error');
+        //    $('#result').html(result.responseText);
+        //}
+        console.log(result);
+    }
+
+</script>
+

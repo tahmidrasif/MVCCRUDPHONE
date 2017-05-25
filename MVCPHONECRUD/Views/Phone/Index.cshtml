@@ -1,0 +1,75 @@
+﻿@using System.Collections
+@using MVCPHONECRUD.Models
+@model MVCPHONECRUD.Models.PagedList<MVCPHONECRUD.Models.Phone>
+@{
+    ViewBag.Title = "Phone List";
+}
+
+
+
+<div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        My Table
+
+    </div>
+
+    <div id="partialChange">
+
+    </div>
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="myModalContent">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Phone</h4>
+            </div>
+            <div class="modal-body" id="modalBody">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+
+    $(function () {
+        $.ajaxSetup({ cache: false });
+
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("List","Phone")',
+            contentType: "application/json; charset=utf-8",
+            success: function (mydata) {
+                $('#partialChange').html(mydata);
+
+            },
+            error: function (mydata) {
+                alert(mydata + ' error');
+            },
+        });
+        // return false;
+
+
+    });
+
+
+
+    </script>
+
+}
+

@@ -1,0 +1,196 @@
+﻿
+@model MVCPHONECRUD.Models.PagedList<MVCPHONECRUD.Models.Phone>
+
+
+
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-6">
+
+            @using (Ajax.BeginForm("List", "Phone", FormMethod.Post, new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "POST", UpdateTargetId = "partialChange", LoadingElementId = "Loading" }, new { @class = "form-horizontal" }))
+            {
+                <div class="input-group col-md-6">
+                    <input id="filter" class="form-control" type="text" name="filter">
+
+                    <span class="input-group-btn ">
+                        <input class="btn btn-default" type="submit" value="Search" />
+                        <span class="glyphicon glyphicon-search"></span>
+
+                    </span>
+                </div>
+            }
+
+        </div>
+        <div class="col-md-6">
+            @*<div class="dropdown pull-right">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Dropdown
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="#">Action</a></li>
+                    </ul>
+
+                </div>*@
+            <button class="btn btn-danger pull-right" id="crateBtn">+</button>
+        </div>
+    </div>
+    <br />
+    <!-- Table -->
+
+
+    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%" style=" margin-bottom:0px">
+        <thead>
+            <tr>
+                <th>
+
+                    @*@Html.ActionLink(@Html.DisplayNameFor(model => Model.Content.First().Model).ToString(), "Index", "Phone", new { sort = "Model", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new { @id = Model.Content.First().PhoneId })*@
+                    @if (Model.Content.Count > 0)
+                    {
+                        @Ajax.ActionLink(@Html.DisplayNameFor(model => Model.Content.First().Model).ToString(), "List", "Phone", new { sort = "Model", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace }, new { @id = Model.Content.First().PhoneId })
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Model", "List", "Phone", new { sort = "Model", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace })
+
+                    }
+
+
+                </th>
+                <th>
+                    @if (Model.Content.Count > 0)
+                    {
+                        @Ajax.ActionLink(@Html.DisplayNameFor(model => Model.Content.First().Company).ToString(), "List", "Phone", new { sort = "Company", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace }, new { @id = Model.Content.First().PhoneId })
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Company", "List", "Phone", new { sort = "Company", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace })
+
+                    }
+
+                </th>
+                <th>
+                    @if (Model.Content.Count > 0)
+                    {
+                        @Ajax.ActionLink(@Html.DisplayNameFor(model => Model.Content.First().Price).ToString(), "List", "Phone", new { sort = "Price", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace }, new { @id = Model.Content.First().PhoneId })
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Price", "List", "Phone", new { sort = "Price", sortdir = ViewBag.SortDir == "DESC" ? "ASC" : "DESC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace })
+
+                    }
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Content)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Company)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id = item.PhoneId }, new { @class = "btn btn-info editCls" }) |*@
+                        <button type="button" class="btn btn-info editButton" value=@item.PhoneId>
+
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <ul class="pagination" style="margin:0px;">
+
+        <li>
+            @*<a href="@Url.Action("List", "Another", new { page = Model.CurrentPage - 1 == 0 ? 1 : Model.CurrentPage - 1, sort = ViewBag.Sort, sortdir = ViewBag.SortDir == "DESC" ? "DESC" : "ASC" })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>*@
+            @Ajax.ActionLink("Previous", "List", "Phone", new { page = Model.CurrentPage - 1 == 0 ? 1 : Model.CurrentPage - 1, sort = ViewBag.Sort, sortdir = ViewBag.SortDir == "DESC" ? "DESC" : "ASC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace })
+        </li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            @*<li><a href="@Url.Action("List", "Another", new { page = i, sort = ViewBag.Sort })">@i</a></li>*@
+            <li>@Ajax.ActionLink(i.ToString(), "List", "Phone", new { page = i, sort = ViewBag.Sort }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace })</li>
+        }
+        <li>
+            @*<a href="@Url.Action("List", "Another", new { page = Model.CurrentPage + 1 > Model.TotalPages ? Model.CurrentPage : Model.CurrentPage + 1, sort = ViewBag.Sort, sortdir = ViewBag.SortDir == "DESC" ? "DESC" : "ASC" })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>*@
+            @Ajax.ActionLink("Next", "List", "Phone", new { page = Model.CurrentPage + 1 > Model.TotalPages ? Model.CurrentPage : Model.CurrentPage + 1, sort = ViewBag.Sort, sortdir = ViewBag.SortDir == "DESC" ? "DESC" : "ASC" }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "partialChange", InsertionMode = InsertionMode.Replace })
+
+
+        </li>
+    </ul>
+
+</div>
+
+
+
+
+
+<script>
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $("#crateBtn").on("click", function (e) {
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Create","Phone")',
+                contentType: "application/json; charset=utf-8",
+                success: function (mydata) {
+                    $('#modalBody').html(mydata);
+                    $('#myModal').modal('show');
+                },
+                error: function (mydata) {
+                    alert(mydata + ' error');
+                },
+            });
+            return false;
+        });
+
+    });
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $(".editButton").on("click", function (e) {
+            // alert($(this).val());
+            var phoneId = $(this).val();
+            var page=@Model.CurrentPage;
+            alert(page);
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Edit","Phone")',
+                data: { id: phoneId},
+                // data: JSON.stringify({id: phoneId}),
+                contentType: "application/json; charset=utf-8",
+                success: function (mydata) {
+                    $('#modalBody').html(mydata);
+                    $('#myModal').modal('show');
+                },
+                error: function (mydata) {
+                    alert(mydata + ' error');
+                },
+            });
+            return false;
+        });
+
+
+    });
+
+
+</script>
+
+
